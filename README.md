@@ -46,7 +46,7 @@ Reload the daemon using <br/>
 
 # Create a multi-host cluster
 
-Initialise master node
+## Initialise master node
 
 Login as super user
 ```
@@ -76,7 +76,7 @@ kubectl --kubeconfig=/etc/kubernetes/admin.conf create -f https://projectcalico.
 ```
 Output of the init command will display the command ( kubeadm join ) to run in the worker nodes to join the worker with the master.
 
-Join worker nodes with master node
+## Join worker nodes with master node
 ```
 kubeadm join 172.31.5.107:6443 --token r0xqhg.5u8xsn31q8tjfmjs --discovery-token-ca-cert-hash sha256:32c62b5d9f7c78a73fe754d4e81100a66187fd0f81e07fa8ee34947b29142dfc
 ```
