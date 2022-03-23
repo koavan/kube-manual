@@ -71,6 +71,7 @@ source ~/.bashrc
 ```
 Install a network interface. Calico in our case.
 ```
+kubectl taint nodes --all node-role.kubernetes.io/master-
 kubectl --kubeconfig=/etc/kubernetes/admin.conf create -f https://projectcalico.docs.tigera.io/v3.22/manifests/calico.yaml
 ```
 Output of the init command will display the command ( kubeadm join ) to run in the worker nodes to join the worker with the master.
