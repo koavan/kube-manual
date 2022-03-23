@@ -1,7 +1,4 @@
-#############################################
 # Installation
-#############################################
-
 ## Install dependencies
 
 ### Install docker
@@ -27,11 +24,11 @@ gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cl
 EOF
 sudo yum install -y kubelet kubeadm kubectl
 ```
-Reference :
-kudeadm -
+### Reference
+kudeadm -<br/>
 https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
     
-Edit the config file /usr/lib/systemd/system/kubelet.service.d/10-kubeadm.conf and add a custom Environment variable
+Edit the config file `/usr/lib/systemd/system/kubelet.service.d/10-kubeadm.conf` and add a custom Environment variable
 
 ```
 # Custom
@@ -47,35 +44,40 @@ ExecStart=/usr/bin/kubelet $KUBELET_KUBECONFIG_ARGS $KUBELET_CONFIG_ARGS $KUBELE
 Reload the daemon using <br/>
 ```systemctl daemon-reload```
 
-#############################################
 # Create a multi-host cluster
-#############################################
 
 Initialise master node
 
-    Login as super user
-    sudo su -
-    
-    To initialise master node run the below command
-    kubeadm init --apiserver-advertise-address=172.31.5.107 --pod-network-cidr=192.168.0.0/16  --ignore-preflight-errors=all
+Login as super user
+```
+sudo su -
+```
 
-    To start using your cluster, you need to run the following as a regular user:
+To initialise master node run the below command <br/>
+```
+kubeadm init --apiserver-advertise-address=172.31.5.107 --pod-network-cidr=192.168.0.0/16  --ignore-preflight-errors=all
+```
 
-    mkdir -p $HOME/.kube
-    sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-    sudo chown $(id -u):$(id -g) $HOME/.kube/config
-
-    Alternatively, if you are the root user, you can run the commands below: ( One time only )
-    echo "export KUBECONFIG=/etc/kubernetes/admin.conf" >> ~/.bashrc
-    source ~/.bashrc
-
-    kubectl --kubeconfig=/etc/kubernetes/admin.conf create -f https://projectcalico.docs.tigera.io/v3.22/manifests/calico.yaml
-
-    Output of the init command will display the command ( kubeadm join ) to run in the worker nodes to join the worker with the master.
+To start using your cluster, you need to run the following as a regular user:
+```
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+```
+Alternatively, if you are the root user, you can run the commands below: ( One time only )
+```
+echo "export KUBECONFIG=/etc/kubernetes/admin.conf" >> ~/.bashrc
+source ~/.bashrc
+```
+Install a network interface. Calico in our case.
+```
+kubectl --kubeconfig=/etc/kubernetes/admin.conf create -f https://projectcalico.docs.tigera.io/v3.22/manifests/calico.yaml
+```
+Output of the init command will display the command ( kubeadm join ) to run in the worker nodes to join the worker with the master.
 
 Join worker nodes with master node
-
-    kubeadm join 172.31.5.107:6443 --token r0xqhg.5u8xsn31q8tjfmjs --discovery-token-ca-cert-hash sha256:32c62b5d9f7c78a73fe754d4e81100a66187fd0f81e07fa8ee34947b29142dfc
-
+```
+kubeadm join 172.31.5.107:6443 --token r0xqhg.5u8xsn31q8tjfmjs --discovery-token-ca-cert-hash sha256:32c62b5d9f7c78a73fe754d4e81100a66187fd0f81e07fa8ee34947b29142dfc
+```
 Run 
     kubectl get nodes
