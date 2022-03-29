@@ -19,7 +19,7 @@ spec:
               memory: "256Mi"
               cpu: "250m"
           ports:
-            - containerPort: 3306
+            - containerPort: 3306 # mysql default port
           env:
             - name: MYSQL_ROOT_PASSWORD
               value: somewordpress
@@ -29,10 +29,13 @@ spec:
               value: wordpress
             - name: MYSQL_PASSWORD
               value: wordpress
-          volumeMounts:
-            - name: mysql-pv
-              mountPath: /var/lib/mysql
-      volumes:
-        - name: mysql-pv
-          persistentVolumeClaim:
-            claimName: mysql-pvc
+      #
+      # Uncomment the following lines to enable persistent volume for the db pod
+      #
+      #     volumeMounts:
+      #       - name: mysql-pv
+      #         mountPath: /var/lib/mysql
+      # volumes:
+      #   - name: mysql-pv
+      #     persistentVolumeClaim:
+      #       claimName: mysql-pvc
