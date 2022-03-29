@@ -46,3 +46,8 @@ Get the public IP address of the node where the wordpress pod got created.
 Go to the browser and open <public-ip-of-the-node>:<nodePort-of-wordpress-service>
 ex:
    http://123.456.789.0:30000
+
+```
+To apply all config files in a directory 
+kubectl apply -f directory/
+```
